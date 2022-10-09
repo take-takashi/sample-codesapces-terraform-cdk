@@ -1,0 +1,29 @@
+{
+  "image": "node:18.9",
+  "name": "node18.9",
+  "features": {
+    "terraform": {
+      "version": "latest",
+      "tflint": "latest",
+      "terragrunt": "latest"
+    }
+  },
+  "extensions": [
+    "hediet.vscode-drawio",
+    "GrapeCity.gc-excelviewer",
+    "mechatroner.rainbow-csv",
+    "redhat.vscode-yaml",
+    "esbenp.prettier-vscode",
+    "donjayamanne.githistory"
+  ],
+  "settings": {
+    "editor.tabSize": 2, // インデントタブサイズは2とする
+    "editor.insertSpaces": true, // インデントはスペースとする
+    "editor.defaultFormatter": "esbenp.prettier-vscode", // デフォルトフォーマッターをPrettierにする
+    "editor.formatOnSave": true, // 保存時にフォーマットする
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true // ファイル保存時、ESLint による自動フォーマット
+    }
+  },
+  "postCreateCommand": "bash ./.devcontainer/init.bash"
+}
