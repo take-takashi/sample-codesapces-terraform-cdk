@@ -14,7 +14,8 @@
     "mechatroner.rainbow-csv",
     "redhat.vscode-yaml",
     "esbenp.prettier-vscode",
-    "donjayamanne.githistory"
+    "donjayamanne.githistory",
+    "Pod212.vscode-github-projects" // あんまり使えないかも？Public Projectだけ？
   ],
   "settings": {
     "editor.tabSize": 2, // インデントタブサイズは2とする
