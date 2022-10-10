@@ -1,6 +1,6 @@
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { provider, s3Bucket as s3 } from "@cdktf/provider-aws";
+import * as aws from "@cdktf/provider-aws";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
@@ -8,13 +8,35 @@ class MyStack extends TerraformStack {
 
     // define resources here
 
-    new provider.AwsProvider(this, "aws", {
+    new aws.provider.AwsProvider(this, "aws", {
       region: "ap-northeast-1",
     });
 
-    new s3.S3Bucket(this, "myBucket", {
-      bucketPrefix: "example-",
+    // S3
+    const bucket = new aws.s3Bucket.S3Bucket(this, "s3Bucket", {
+      bucketPrefix: "test-static-web-site-",
     });
+
+    // バケットにACLを付与する
+    new aws.s3BucketAcl.S3BucketAcl(this, "S3BucketAcl", {
+      bucket: bucket.bucket,
+      acl: "private",
+    });
+
+    // バケットの静的WEBホスティング設定
+    new aws.s3BucketWebsiteConfiguration.S3BucketWebsiteConfiguration(
+      this,
+      "S3BucketWebsiteConfiguration",
+      {
+        bucket: bucket.bucket,
+        indexDocument: {
+          suffix: "index.html",
+        },
+        errorDocument: {
+          key: "index.html",
+        },
+      }
+    );
   }
 }
 
