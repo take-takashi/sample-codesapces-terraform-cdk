@@ -37,6 +37,25 @@ class MyStack extends TerraformStack {
         },
       }
     );
+
+    // 静的WEBホスティングのためのバケットボリシー
+    new aws.s3BucketPolicy.S3BucketPolicy(this, "S3BucketPolicy", {
+      bucket: bucket.bucket,
+      policy: `
+        {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                  "Sid": "PublicReadGetObject",
+                  "Effect": "Allow",
+                  "Principal": "*",
+                  "Action": "s3:GetObject",
+                  "Resource": "${bucket.arn}/*"
+              }
+          ]
+        }
+      `,
+    });
   }
 }
 
