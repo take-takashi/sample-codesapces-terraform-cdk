@@ -1,45 +1,45 @@
-import { Construct } from "constructs";
-import { App, TerraformStack } from "cdktf";
-import * as aws from "@cdktf/provider-aws";
+import { Construct } from 'constructs'
+import { App, TerraformStack } from 'cdktf'
+import * as aws from '@cdktf/provider-aws'
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
-    super(scope, name);
+    super(scope, name)
 
     // define resources here
 
-    new aws.provider.AwsProvider(this, "aws", {
-      region: "ap-northeast-1",
-    });
+    new aws.provider.AwsProvider(this, 'aws', {
+      region: 'ap-northeast-1',
+    })
 
     // S3
-    const bucket = new aws.s3Bucket.S3Bucket(this, "s3Bucket", {
-      bucketPrefix: "test-static-web-site-",
-    });
+    const bucket = new aws.s3Bucket.S3Bucket(this, 's3Bucket', {
+      bucketPrefix: 'test-static-web-site-',
+    })
 
     // バケットにACLを付与する
-    new aws.s3BucketAcl.S3BucketAcl(this, "S3BucketAcl", {
+    new aws.s3BucketAcl.S3BucketAcl(this, 'S3BucketAcl', {
       bucket: bucket.bucket,
-      acl: "private",
-    });
+      acl: 'private',
+    })
 
     // バケットの静的WEBホスティング設定
     new aws.s3BucketWebsiteConfiguration.S3BucketWebsiteConfiguration(
       this,
-      "S3BucketWebsiteConfiguration",
+      'S3BucketWebsiteConfiguration',
       {
         bucket: bucket.bucket,
         indexDocument: {
-          suffix: "index.html",
+          suffix: 'index.html',
         },
         errorDocument: {
-          key: "index.html",
+          key: 'index.html',
         },
-      }
-    );
+      },
+    )
 
     // 静的WEBホスティングのためのバケットボリシー
-    new aws.s3BucketPolicy.S3BucketPolicy(this, "S3BucketPolicy", {
+    new aws.s3BucketPolicy.S3BucketPolicy(this, 'S3BucketPolicy', {
       bucket: bucket.bucket,
       policy: `
         {
@@ -55,10 +55,10 @@ class MyStack extends TerraformStack {
           ]
         }
       `,
-    });
+    })
   }
 }
 
-const app = new App();
-new MyStack(app, "infra");
-app.synth();
+const app = new App()
+new MyStack(app, 'infra')
+app.synth()

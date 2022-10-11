@@ -9,15 +9,15 @@
     }
   },
   "extensions": [
-	"hediet.vscode-drawio",
-	"GrapeCity.gc-excelviewer",
-	"mechatroner.rainbow-csv",
-	"redhat.vscode-yaml",
-	"esbenp.prettier-vscode",
-	"donjayamanne.githistory",
-	"ziyasal.vscode-open-in-github",
-	"KnisterPeter.vscode-commitizen"
-],
+    "hediet.vscode-drawio",
+    "GrapeCity.gc-excelviewer",
+    "mechatroner.rainbow-csv",
+    "redhat.vscode-yaml",
+    "esbenp.prettier-vscode",
+    "donjayamanne.githistory",
+    "ziyasal.vscode-open-in-github",
+    "KnisterPeter.vscode-commitizen"
+  ],
   "settings": {
     "editor.tabSize": 2, // インデントタブサイズは2とする
     "editor.insertSpaces": true, // インデントはスペースとする
