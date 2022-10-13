@@ -20,7 +20,8 @@
 	"2gua.rainbow-brackets",
 	"MS-CEINTL.vscode-language-pack-ja",
 	"PKief.material-icon-theme",
-	"dbaeumer.vscode-eslint"
+	"dbaeumer.vscode-eslint",
+	"cschleiden.vscode-github-actions"
 ],
   "settings": {
     "editor.tabSize": 2, // インデントタブサイズは2とする
