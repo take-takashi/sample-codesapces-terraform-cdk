@@ -8,8 +8,15 @@ class MyStack extends TerraformStack {
 
     // define resources here
 
+    // aws provider (default)
     new aws.provider.AwsProvider(this, 'aws', {
       region: 'ap-northeast-1',
+    })
+
+    // aws provider (CloudFrontのACMにはバージニア北部のリージョンである必要がある)
+    const awsProviderUsEast = new aws.provider.AwsProvider(this, 'use_east', {
+      region: 'us-east-1',
+      alias: 'us-east-1',
     })
 
     // S3
@@ -114,6 +121,30 @@ class MyStack extends TerraformStack {
       viewerCertificate: {
         cloudfrontDefaultCertificate: true,
       },
+    })
+
+    // route53
+    const zone = new aws.dataAwsRoute53Zone.DataAwsRoute53Zone(this, 'zone', {
+      name: 'kaerunrun.ml',
+    })
+
+    // acm
+    const acm = new aws.acmCertificate.AcmCertificate(this, 'acm', {
+      domainName: 'blog.kaerunrun.ml',
+      provider: awsProviderUsEast, // CloudFrontのACMにus-east1である必要がある
+      validationMethod: 'DNS',
+      lifecycle: {
+        createBeforeDestroy: true,
+      },
+    })
+
+    const record = new aws.route53Record.Route53Record(this, 'record', {
+      name: acm.domainValidationOptions.get(0).resourceRecordName,
+      type: acm.domainValidationOptions.get(0).resourceRecordType,
+      records: [acm.domainValidationOptions.get(0).resourceRecordValue],
+      zoneId: zone.id,
+      ttl: 60,
+      allowOverwrite: true, // TODO mean
     })
   }
 }
